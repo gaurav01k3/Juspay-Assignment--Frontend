@@ -1,13 +1,24 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import App from "./App";
 import "tailwindcss/tailwind.css";
+import { Provider } from "react-redux";
+import store, { persistor } from "./store";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { PersistGate } from "redux-persist/integration/react";
 
-console.log("hi");
+const container = document.getElementById("root");
+const root = createRoot(container);
 
-ReactDOM.render(
+root.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <DndProvider backend={HTML5Backend}>
+          <App />
+        </DndProvider>
+      </PersistGate>
+    </Provider>
+  </React.StrictMode>
 );
